@@ -1,7 +1,7 @@
 Metapro
 =======
 
-Metapro is a firefox extension to make a todos list for each product.
+Metapro is a firefox extension to make a todos list for each product. This is an experiment if I could make an app entirely without any server using metafields. This is a complete app install using oauth and storing state in metafields.
 
 Because I can.
 
