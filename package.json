@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack -w --display-error-details --progress --colors",
+    "build": "webpack -w --display-error-details --progress --colors"
   },
   "author": "",
   "license": "MPL-2.0",
@@ -20,7 +20,7 @@
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "style-loader": "^0.23.1",
-    "web-ext": "2.3.2",
+    "web-ext": "^2.9.2",
     "webpack": "3.10.0"
   }
 }
