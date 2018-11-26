@@ -14,3 +14,10 @@ metafields.
 - Open `about:debugging#addons` in your firefox and click `Load Temporary Add-on`
   then find and click on the `extension/manifest.json` file. Then login to your shopify
   store, and load up a product view.
+
+## Things learned
+- I would want permission based on namespace
+- Doing a get request and query by namespace would be good
+
+## Things I might try
+- move to graphql so that updating multiple items is faster
