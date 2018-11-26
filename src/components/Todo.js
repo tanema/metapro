@@ -9,12 +9,15 @@ class Todo extends Component {
   }
 
   toggleDone(e) {
-    this.props.toggleTodo(this.props.todo);
+    let { field } = this.props;
+    field.value.done = !field.value.done;
+    field.save().then(this.props.refetch);
   }
 
   removeTodo () {
     this.toggleEditing(false)
-    this.props.deleteTodo(this.props.todo);
+    let { field } = this.props;
+    field.delete().then(this.props.refetch);
   }
 
   toggleEditing(isEditing) {
@@ -23,32 +26,36 @@ class Todo extends Component {
 
   renameTodo(newText) {
     this.toggleEditing(false)
-    this.props.renameTodo(this.props.todo, newText)
+    let { field } = this.props;
+    field.value.text = newText;
+    field.save().then(this.props.refetch);
   }
 
   render () {
+    let { field } = this.props;
+
     return (
       <li
         className={classnames({
-          completed: this.props.todo.done,
+          completed: field.value.done,
           editing: this.state.isEditing,
         })}>
         <div className='view'>
           <input
-            checked={this.props.todo.done}
+            checked={field.value.done}
             className='toggle'
             onChange={this.toggleDone.bind(this)}
             type='checkbox'
           />
           <label onDoubleClick={this.toggleEditing.bind(this, true)}>
-            {this.props.todo.text}
+            {field.value.text}
           </label>
           <button className='destroy' onClick={this.removeTodo.bind(this)} />
         </div>
         {!this.state.isEditing ? null :
           <Input
             className='edit'
-            initialValue={this.props.todo.text}
+            initialValue={field.value.text}
             onCancel={this.toggleEditing.bind(this, false)}
             onDelete={this.removeTodo.bind(this)}
             onSave={this.renameTodo.bind(this)}

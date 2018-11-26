@@ -3,31 +3,16 @@ import classNames from 'classnames';
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from 'constants/FilterTypes';
 
 class Footer extends Component {
-  get completedTodoIDs() {
-    return this.props.todos.reduce(function (accum, todo) {
-      if (todo.done) {
-        accum.push(todo.id);
-      }
-      return accum;
-    }, []);
-  }
-
-  get activeTodoCount() {
-    return this.props.todos.reduce(function (accum, todo) {
-        return todo.done ? accum : accum + 1;
-    }, 0);
-  }
-
   setStatus(status) {
     this.props.setFilter(status)
   }
 
   render () {
-    const { filter } = this.props;
+    const { filter, metafields } = this.props;
     return (
       <footer className="footer">
         <span className="todo-count">
-          <strong>{ this.activeTodoCount }</strong> left
+          <strong>{ metafields.filter((field) => !field.value.done).length }</strong> left
         </span>
         <ul className="filters">
           <li>

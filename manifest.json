@@ -23,7 +23,7 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.myshopify.com/*"],
+      "matches": ["*://*.myshopify.com/admin/products/*"],
       "js": ["build/content_script.js"],
       "run_at": "document_end"
     }
