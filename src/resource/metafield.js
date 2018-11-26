@@ -22,13 +22,17 @@ class Metafield {
     return `https://${location.host}/admin/metafields`
   }
 
-  static fetchAllForResource(resource, id) {
-    const url = `${this.endpoint}.json?metafield[owner_id]=${id}&metafield[owner_resource]=${resource}`;
+  static findAll(resource, id) {
+    const params = new URLSearchParams({
+      'metafield[owner_id]': id,
+      'metafield[owner_resource]': resource,
+      'namespace': namespace,
+    })
+    const url = `${this.endpoint}.json?${params.toString()}`;
     return authHeader()
       .then((headers) => fetch(url, {headers}))
       .then((resp) => resp.json())
-      .then((resp) => resp.metafields.filter((metafield) => metafield.namespace == namespace))
-      .then((metafields) => metafields.map((metafield) => new Metafield(metafield)))
+      .then((resp) => resp.metafields.map((metafield) => new Metafield(metafield)))
   }
 
   static find(id) {
@@ -54,6 +58,7 @@ class Metafield {
   }
 
   constructor(props) {
+    this.admin_graphql_api_id = props.admin_graphql_api_id;
     this.id = props.id;
     this.namespace = namespace;
     this.key = props.key;

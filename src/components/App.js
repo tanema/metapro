@@ -17,12 +17,13 @@ class App extends Component {
 
   fetch() {
     let { id, resource } = this.props;
-    Metafield.fetchAllForResource(resource, id)
+    Metafield.findAll(resource, id)
       .then((metafields) => this.setState({metafields}))
   }
 
   get metafields() {
     let { metafields, filter } = this.state;
+    console.log(metafields)
     return metafields.reduce(function (accum, field) {
       if (filter == SHOW_ALL){
         accum.push(field);

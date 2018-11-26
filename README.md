@@ -17,7 +17,9 @@ metafields.
 
 ## Things learned
 - I would want permission based on namespace
-- Doing a get request and query by namespace would be good
+- ~Doing a get request and query by namespace would be good~
+- You can query by namespace in REST but it changes the format of the output from
+  an array to an object with a key `metafields`
 
 ## Things I might try
 - move to graphql so that updating multiple items is faster
