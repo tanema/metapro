@@ -9,10 +9,9 @@ function init() {
   var rootApp = document.createElement("metapro_app")
   rootApp.id = "metapro_app"
   document.body.appendChild(rootApp)
-  ReactDOM.render(<App
-    id={parseInt(location.pathname.replace(productPath, ""))}
-    resource="product"
-  />, document.getElementById('metapro_app'));
+
+  const id = parseInt(location.pathname.replace(productPath, ""));
+  ReactDOM.render(<App id={id} resource="product"/>, document.getElementById('metapro_app'));
 }
 
 authorize().then(init);

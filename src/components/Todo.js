@@ -16,8 +16,7 @@ class Todo extends Component {
 
   removeTodo () {
     this.toggleEditing(false)
-    let { field } = this.props;
-    field.delete().then(this.props.refetch);
+    this.props.field.delete().then(this.props.refetch);
   }
 
   toggleEditing(isEditing) {
@@ -33,13 +32,8 @@ class Todo extends Component {
 
   render () {
     let { field } = this.props;
-
     return (
-      <li
-        className={classnames({
-          completed: field.value.done,
-          editing: this.state.isEditing,
-        })}>
+      <li className={classnames({completed: field.value.done, editing: this.state.isEditing})}>
         <div className='view'>
           <input
             checked={field.value.done}

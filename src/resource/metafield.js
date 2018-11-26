@@ -17,7 +17,21 @@ function authHeader() {
   })
 }
 
-class Metafield {
+export default class Metafield {
+  constructor(props) {
+    this.admin_graphql_api_id = props.admin_graphql_api_id;
+    this.id = props.id;
+    this.namespace = namespace;
+    this.key = props.key;
+    this.description = props.description;
+    this.value = JSON.parse(props.value);
+    this.value_type = props.value_type;
+    this.owner_id = props.owner_id;
+    this.owner_resource = props.owner_resource;
+    this.created_at = props.created_at;
+    this.updated_at = props.updated_at;
+  }
+
   static get endpoint() {
     return `https://${location.host}/admin/metafields`
   }
@@ -57,20 +71,6 @@ class Metafield {
       .then((resp) => new Metafield(resp.metafield));
   }
 
-  constructor(props) {
-    this.admin_graphql_api_id = props.admin_graphql_api_id;
-    this.id = props.id;
-    this.namespace = namespace;
-    this.key = props.key;
-    this.description = props.description;
-    this.value = JSON.parse(props.value);
-    this.value_type = props.value_type;
-    this.owner_id = props.owner_id;
-    this.owner_resource = props.owner_resource;
-    this.created_at = props.created_at;
-    this.updated_at = props.updated_at;
-  }
-
   save() {
     const url = `${Metafield.endpoint}/${this.id}.json`
     const metafield = {
@@ -90,5 +90,3 @@ class Metafield {
       .catch(console.log)
   }
 }
-
-export default Metafield;

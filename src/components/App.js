@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
 import Metafield from 'resource/metafield';
-import AddTodo from 'components/AddTodo';
-import List from 'components/List';
-import Footer from 'components/Footer';
+import Input from 'components/Input'
+import Todo from 'components/Todo'
+import classNames from 'classnames';
 import { SHOW_ALL, SHOW_COMPLETED, SHOW_ACTIVE } from 'constants/FilterTypes';
+
+const filters = [
+  {state: SHOW_ALL, label: "All"},
+  {state: SHOW_ACTIVE, label: "Active"},
+  {state: SHOW_COMPLETED, label: "Completed"},
+]
 
 class App extends Component {
   constructor(props) {
@@ -16,29 +22,27 @@ class App extends Component {
   }
 
   fetch() {
-    let { id, resource } = this.props;
-    Metafield.findAll(resource, id)
+    Metafield.findAll(this.props.resource, this.props.id)
       .then((metafields) => this.setState({metafields}))
   }
 
   get metafields() {
     let { metafields, filter } = this.state;
-    console.log(metafields)
-    return metafields.reduce(function (accum, field) {
-      if (filter == SHOW_ALL){
-        accum.push(field);
-      } else if (filter == SHOW_COMPLETED && field.value.done) {
-        accum.push(field);
-      } else if (filter == SHOW_ACTIVE && !field.value.done) {
-        accum.push(field);
-      }
-      return accum;
-    }, []);
+    if (filter == SHOW_COMPLETED) {
+      return metafields.filter((field) => field.value.done)
+    } else if (filter == SHOW_ACTIVE) {
+      return metafields.filter((field) => !field.value.done)
+    }
+    return metafields
   }
 
-  addTodo(todo) {
+  get activeCount() {
+    return this.metafields.filter((field) => !field.value.done).length
+  }
+
+  addTodo(text) {
     let { id, resource } = this.props;
-    Metafield.create(resource, id, todo)
+    Metafield.create(resource, id, {text: text})
       .then((newMetafield) => {
         let metafields = (this.state.metafields || [])
         metafields.push(newMetafield)
@@ -69,20 +73,40 @@ class App extends Component {
   render() {
     return (
       <section className="todoapp">
-        <AddTodo addTodo={this.addTodo.bind(this)} />
-        <List
-          metafields={this.metafields}
-          filter={this.state.filter}
-          toggleAllTodos={this.toggleAllTodos.bind(this)}
-          addTodo={this.addTodo.bind(this)}
-          refetch={this.fetch.bind(this)}
-        />
-        <Footer
-          metafields={this.state.metafields}
-          filter={this.state.filter}
-          setFilter={this.setFilter.bind(this)}
-          clearCompleted={this.clearCompleted.bind(this)}
-        />
+        <header className='header'>
+          <Input className="new-todo"
+                 placeholder="What needs to be done?"
+                 onSave={this.addTodo.bind(this)} />
+        </header>
+        <section className='main'>
+          <input className="toggle-all"
+                 type="checkbox"
+                 onChange={this.toggleAllTodos.bind(this)}
+                 checked={this.activeCount === 0} />
+          <ul className='todo-list'>
+            {this.metafields.map((field) =>
+              <Todo key={field.id} field={field} refetch={this.fetch.bind(this)}/>
+            )}
+          </ul>
+        </section>
+        <footer className="footer">
+          <span className="todo-count">
+            <strong>{ this.activeCount }</strong> left
+          </span>
+          <ul className="filters">
+            {filters.map((fltr, label) =>
+            <li>
+              <a onClick={this.setFilter.bind(this, fltr.state)}
+                className={classNames({selected: this.state.filter === fltr.state})}>
+                { fltr.label }
+              </a>
+            </li>
+            )}
+          </ul>
+          <button className="clear-completed" onClick={this.clearCompleted.bind(this)}>
+            Clear completed
+          </button>
+        </footer>
       </section>
     );
   }
