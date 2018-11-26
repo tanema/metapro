@@ -3,29 +3,19 @@
   "name": "metapro",
   "description": "",
   "version": "1.0",
-
   "applications": {
     "gecko": {
       "id": "timanema@gmail.com",
       "strict_min_version": "42.0"
     }
   },
-
-  "permissions": [
-    "*://*.myshopify.com/*",
-    "identity",
-    "storage"
-  ],
-
+  "permissions": ["*://*.myshopify.com/*", "identity", "storage"],
+  "background": {"scripts": ["build/background.js"]},
   "content_scripts": [
     {
       "matches": ["*://*.myshopify.com/admin/products/*"],
       "js": ["build/content_script.js"],
       "run_at": "document_end"
     }
-  ],
-
-  "background": {
-    "scripts": ["build/background.js"]
-  }
+  ]
 }

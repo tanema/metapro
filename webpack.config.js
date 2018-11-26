@@ -4,7 +4,7 @@ const env = require('dotenv').config().parsed;
 
 module.exports = {
   entry: {
-    content_script: './src/metapro.js',
+    content_script: './src/content_script.js',
     background: './src/background.js',
   },
   output: {
