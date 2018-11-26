@@ -12,13 +12,9 @@
   },
 
   "permissions": [
-    "*://*.ngrok.io/*",
     "*://*.myshopify.com/*",
     "identity",
-    "activeTab",
-    "webRequest",
-    "storage",
-    "tabs"
+    "storage"
   ],
 
   "content_scripts": [

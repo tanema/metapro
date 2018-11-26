@@ -8,7 +8,7 @@ module.exports = {
     background: './src/background.js',
   },
   output: {
-    path: path.join(path.resolve(__dirname), 'build'),
+    path: path.join(path.resolve(__dirname), 'extension', 'build'),
     filename: '[name].js',
   },
   module: {
